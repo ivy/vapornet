@@ -4,6 +4,17 @@
 
 **VaporNet** is a surreal HTTP client proxy that generates a procedurally hallucinated internet, one request at a time. Every page is a love letter to the Weird Wide Web of the late '90s and early 2000s—reborn through the mind of an LLM and dripping with glittery GIFs, cursed fonts, and synthetic nostalgia.
 
+## 🧪 Usage (Coming Soon™)
+
+Eventually you’ll be able to:
+
+```bash
+docker run -p 8080 --env OPENAI_API_KEY="<your API key>" ghrc.io/ivy/vapornet
+```
+
+Then browse the hallucinet by setting your browser to proxy to `http://localhost:8080`.
+Try any URL you want. Nothing is off-limits.
+
 ## 🌀 What Is It?
 
 VaporNet turns any web request into a portal to an alternate timeline where:
@@ -61,16 +72,66 @@ No real data is served. Everything is an illusion.
 - `http://geocities.void/sailor_moon_fan_club14013`
   A sparkly pink shrine to Usagi with pop-up welcome messages and a guestbook that screams when clicked.
 
-## 🧪 Usage
+## 🧰 Getting Started (Local Dev)
 
-Coming soon™ — currently in ~alpha~ dreamstate. But when ready, you’ll be able to:
+You'll need:
+
+- [Go 1.21+](https://go.dev/)
+- An OpenAI API key
+- 💻 A haunted CRT (optional but encouraged)
+
+### 1. Clone the repo
 
 ```bash
-docker run -p 8080 ghrc.io/ivy/vapornet
+git clone https://github.com/your-user/vapornet.git
+cd vapornet
 ```
 
-Then browse the hallucinet by setting your browser to proxy to `http://localhost:8080`.
-Try any URL you want. Nothing is off-limits.
+### 2. Set up your `.env`
+
+Create a `.env` file in the root of the project with your API key:
+
+```env
+OPENAI_API_KEY=sk-...
+```
+
+> 🔐 **Pro tip:** Don’t commit this file! Add `.env` to your `.gitignore`.
+
+### 3. Install dependencies
+
+```bash
+go mod tidy
+```
+
+### 4. Run the server
+
+```bash
+go run main.go
+```
+
+This starts your VaporNet dream machine at `http://localhost:8080`.
+
+### 5. Start browsing the net-unreal
+
+Set your browser or HTTP client to use `localhost:8080` as an HTTP proxy (or just `curl` it):
+
+```bash
+curl http://ghostforums.biz/alien_truth/files/zeta3.html
+```
+
+## 📦 Environment Variables
+
+| Variable         | Description                     |
+|------------------|---------------------------------|
+| `OPENAI_API_KEY` | Your OpenAI API key (required)  |
+
+## 🔄 Updating Prompt Logic
+
+All prompt templates live in `template/prompt/*.md`.
+
+For example, `concept.md` is the heart of the system—it takes a request and dreams up what kind of page it should become in the world of VaporNet.
+
+> Want to make your hallucinations weirder? Start there.
 
 ## 📡 Philosophy
 
