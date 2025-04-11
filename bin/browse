@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+exec /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+  --user-data-dir="/tmp/chrome-profile-proxy" \
+  --proxy-server="http://127.0.0.1:8080"
