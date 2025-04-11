@@ -5,12 +5,12 @@ import (
 	"context"
 	_ "embed"
 	"fmt"
-	"html/template"
 	"io"
 	"log"
 	"net/http"
 	"net/http/httputil"
 	"os"
+	"text/template"
 
 	"github.com/joho/godotenv"
 	openai "github.com/openai/openai-go"
@@ -19,6 +19,9 @@ import (
 
 //go:embed template/prompt/concept.md
 var conceptTemplate string
+
+//go:embed template/prompt/html_renderer.md
+var htmlRendererTemplate string
 
 type RequestData struct {
 	Request     RequestInfo
@@ -32,36 +35,40 @@ type RequestInfo struct {
 	Language string
 }
 
+type RenderHTMLData struct {
+	Concept     string
+	Request     RequestInfo
+	RequestBody string
+}
+
 func main() {
-	// Load environment variables from .env file
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal("💖 Error loading .env file")
 	}
 
 	apiKey := os.Getenv("OPENAI_API_KEY")
 	if apiKey == "" {
-		log.Fatal("Missing OPENAI_API_KEY")
+		log.Fatal("💖 Missing OPENAI_API_KEY")
 	}
 
 	client := openai.NewClient(option.WithAPIKey(apiKey))
 
-	tmpl, err := template.New("concept").Parse(conceptTemplate)
-	if err != nil {
-		log.Fatalf("Failed to parse template: %v", err)
-	}
+	conceptTmpl := template.Must(template.New("concept").Parse(conceptTemplate))
+	htmlTmpl := template.Must(template.New("html_renderer").Parse(htmlRendererTemplate))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		dump, _ := httputil.DumpRequest(r, true)
-		fmt.Printf("=== Incoming request ===\n%s\n", dump)
+		log.Printf("💖 === Incoming request ===\n%s", dump)
 
 		body, err := io.ReadAll(r.Body)
 		if err != nil {
+			log.Printf("💖 Failed to read request body: %v", err)
 			http.Error(w, "Could not read body", http.StatusInternalServerError)
 			return
 		}
 
-		data := RequestData{
+		reqData := RequestData{
 			Request: RequestInfo{
 				Method:   r.Method,
 				Path:     r.URL.Path,
@@ -71,30 +78,64 @@ func main() {
 			RequestBody: string(body),
 		}
 
-		var promptBuf bytes.Buffer
-		if err := tmpl.Execute(&promptBuf, data); err != nil {
-			http.Error(w, "Failed to build prompt", http.StatusInternalServerError)
+		// Step 1: Generate concept prompt
+		var conceptBuf bytes.Buffer
+		if err := conceptTmpl.Execute(&conceptBuf, reqData); err != nil {
+			log.Printf("💖 Failed to build concept prompt: %v", err)
+			http.Error(w, "Failed to build concept prompt", http.StatusInternalServerError)
 			return
 		}
+		log.Printf("💖 Concept Prompt:\n%s", conceptBuf.String())
 
-		log.Println("Prompt for OpenAI API:")
-		fmt.Println(promptBuf.String())
-		resp, err := client.Chat.Completions.New(context.Background(), openai.ChatCompletionNewParams{
+		conceptResp, err := client.Chat.Completions.New(context.Background(), openai.ChatCompletionNewParams{
 			Messages: []openai.ChatCompletionMessageParamUnion{
-				openai.UserMessage(promptBuf.String()),
+				openai.UserMessage(conceptBuf.String()),
 			},
 			Model: openai.ChatModelGPT4o,
 		})
 		if err != nil {
-			http.Error(w, fmt.Sprintf("OpenAI error: %v", err), http.StatusInternalServerError)
+			log.Printf("💖 OpenAI error (concept): %v", err)
+			http.Error(w, fmt.Sprintf("OpenAI error (concept): %v", err), http.StatusInternalServerError)
 			return
 		}
 
-		concept := resp.Choices[0].Message.Content
-		w.Header().Set("Content-Type", "text/plain")
-		fmt.Fprintln(w, concept)
+		concept := conceptResp.Choices[0].Message.Content
+		log.Printf("💖 Concept Output:\n%s", concept)
+
+		// Step 2: Generate HTML from concept
+		htmlData := RenderHTMLData{
+			Concept:     concept,
+			Request:     reqData.Request,
+			RequestBody: reqData.RequestBody,
+		}
+
+		var htmlPromptBuf bytes.Buffer
+		if err := htmlTmpl.Execute(&htmlPromptBuf, htmlData); err != nil {
+			log.Printf("💖 Failed to build HTML prompt: %v", err)
+			http.Error(w, "Failed to build HTML prompt", http.StatusInternalServerError)
+			return
+		}
+		log.Printf("💖 HTML Prompt:\n%s", htmlPromptBuf.String())
+
+		htmlResp, err := client.Chat.Completions.New(context.Background(), openai.ChatCompletionNewParams{
+			Messages: []openai.ChatCompletionMessageParamUnion{
+				openai.UserMessage(htmlPromptBuf.String()),
+			},
+			Model: openai.ChatModelGPT4o,
+		})
+		if err != nil {
+			log.Printf("💖 OpenAI error (HTML): %v", err)
+			http.Error(w, fmt.Sprintf("OpenAI error (HTML): %v", err), http.StatusInternalServerError)
+			return
+		}
+
+		finalHTML := htmlResp.Choices[0].Message.Content
+		log.Printf("💖 Final HTML Output Length: %d", len(finalHTML))
+
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		fmt.Fprint(w, finalHTML)
 	})
 
-	fmt.Println("Listening on http://localhost:8080")
+	fmt.Println("💖 Listening on http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
