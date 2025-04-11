@@ -56,9 +56,12 @@ func main() {
 	conceptTmpl := template.Must(template.New("concept").Parse(conceptTemplate))
 	htmlTmpl := template.Must(template.New("html_renderer").Parse(htmlRendererTemplate))
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		handleRequest(w, r, &client, conceptTmpl, htmlTmpl)
 	})
+
+	// 🧱 Wrap handler with the middleware
+	http.Handle("/", blockHostsMiddleware(handler))
 
 	fmt.Println("💖 Listening on http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
