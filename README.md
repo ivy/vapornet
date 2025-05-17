@@ -1,6 +1,6 @@
 # 🌐 VaporNet
 
-> _"Best viewed on a haunted CRT at 3AM with MIDI autoplay on and your dreams slightly scrambled."_
+> _"Best viewed on a dusty CRT at 3AM with MIDI autoplay on and your dreams slightly scrambled."_
 
 **VaporNet** is a surreal HTTP client proxy that generates a procedurally hallucinated internet, one request at a time. Every page is a love letter to the Weird Wide Web of the late '90s and early 2000s—reborn through the mind of an LLM and dripping with glittery GIFs, cursed fonts, and synthetic nostalgia.
 
@@ -72,7 +72,7 @@ No real data is served. Everything is an illusion.
   A goth teen zine claiming glam rock is a lunar psyop. Includes howling wolf gifs and MIDI of *Baba O'Riley*.
 
 - `http://angelflesh.club/blackmirror_journal/fears4.htm`
-  A semi-sentient dream journal about haunted televisions.
+  A semi-sentient dream journal about glitchy televisions.
 
 - `http://geocities.void/sailor_moon_fan_club14013`
   A sparkly pink shrine to Usagi with pop-up welcome messages and a guestbook that screams when clicked.
@@ -83,7 +83,7 @@ You'll need:
 
 - [Go 1.21+](https://go.dev/)
 - An OpenAI API key
-- 💻 A haunted CRT (optional but encouraged)
+- 💻 A dusty CRT (optional but encouraged)
 
 ### 1. Clone the repo
 

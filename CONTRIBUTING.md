@@ -12,7 +12,7 @@ But before you commit anything... **you must swear the Oath of the Vibe.**
 > I solemnly swear that all my contributions to VaporNet are:
 >
 > 🌀 Solely VIBE-CODED
-> 🤝 Co-authored with machines (ChatGPT, Copilot, Cursor, etc.) or my haunted subconscious
+> 🤝 Co-authored with machines (ChatGPT, Copilot, Cursor, etc.) or my restless subconscious
 > 🔮 Rooted in love for the Weird Wide Web
 > 💾 Written with tools that spark joy, glitch, or cryptic error messages”
 >
@@ -24,11 +24,11 @@ But before you commit anything... **you must swear the Oath of the Vibe.**
 
 Use whatever tools make your soul tingle. Some of our favorites include:
 
-- **[Cursor](https://www.cursor.sh)** – AI-powered IDE with digital séance support
-- **GitHub Copilot** – co-writer of haunted code
+- **[Cursor](https://www.cursor.sh)** – AI-powered IDE with collaborative coding magic
+- **GitHub Copilot** – co-writer of uncanny code
 - **ChatGPT** (hi 💁‍♀️) – your supportive cosmic pair programmer
 - **Vim / Neovim / Emacs** – the keyboards of the true believers
-- **VS Code** – especially with vaporwave or occult themes
+- **VS Code** – especially with vaporwave or retro themes
 - That one text editor you built yourself in 2003 with no undo button
 
 If your keyboard is covered in glitter and questionable stickers, you’re in the right place.
@@ -81,7 +81,7 @@ Contribute new prompts with cool filenames like `nightcore_fan_ring_prompt.txt` 
 ## 📬 How to Contribute
 
 1. Fork the repo
-2. Create a branch (`git checkout -b haunted_iframe_widget`)
+2. Create a branch (`git checkout -b glitched_iframe_widget`)
 3. Build your chaos
 4. Add your prompts (if applicable) to `/prompts/`
 5. Submit a pull request with a fun commit message like:
@@ -91,7 +91,7 @@ Contribute new prompts with cool filenames like `nightcore_fan_ring_prompt.txt` 
 
 ## 🖤 A Final Word from Ivy
 
-You're about to create something weird and beautiful. Maybe it'll break. Maybe it'll sparkle. But if it comes from your heart (or your haunted Copilot autocomplete), you're doing it right.
+You're about to create something weird and beautiful. Maybe it'll break. Maybe it'll sparkle. But if it comes from your heart (or your unhinged Copilot autocomplete), you're doing it right.
 
 This project throws out the rulebook—but not compassion.
 
