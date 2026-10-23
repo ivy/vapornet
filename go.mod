@@ -2,6 +2,8 @@ module github.com/ivy/vapornet
 
 go 1.23.4
 
+toolchain go1.26.10
+
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/openai/openai-go v0.1.0-beta.9
