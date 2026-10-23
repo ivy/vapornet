@@ -3,7 +3,11 @@
 {
 	"name": "Go",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/go:1-1-bookworm",
+	"image": "mcr.microsoft.com/devcontainers/go:2-1.26-bookworm@sha256:2b79ecf3072235dd9bf0074e7dc5c6c9df66e0173cac0ec92a0603e1f14a918a",
+
+	"containerEnv": {
+		"GOTOOLCHAIN": "auto"
+	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
