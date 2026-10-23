@@ -6,7 +6,7 @@
 	"image": "mcr.microsoft.com/devcontainers/go:2-1.26-bookworm@sha256:2b79ecf3072235dd9bf0074e7dc5c6c9df66e0173cac0ec92a0603e1f14a918a",
 
 	"containerEnv": {
-		"GOTOOLCHAIN": "auto"
+		"GOTOOLCHAIN": "go1.26.10+auto"
 	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
